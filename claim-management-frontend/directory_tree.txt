@@ -1,0 +1,63 @@
+├── .gitignore
+├── README.md
+├── directory_tree.txt
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── public
+│   └── vite.svg
+├── src
+│   ├── App.jsx
+│   ├── assets
+│   │   └── logo.jpg
+│   ├── components
+│   │   ├── admin
+│   │   │   ├── CreateUserForm.jsx
+│   │   │   ├── UserSelection.jsx
+│   │   │   └── UsersTable.jsx
+│   │   ├── auth
+│   │   │   └── ProtectedRoutes.jsx
+│   │   ├── claims
+│   │   │   ├── ClaimsGrid.jsx
+│   │   │   ├── ClaimsSection.jsx
+│   │   │   └── ClaimsTable.jsx
+│   │   ├── dashboard
+│   │   │   └── DashboardQuickActions.jsx
+│   │   ├── layout
+│   │   │   ├── MobileMenu.jsx
+│   │   │   └── Navigation.jsx
+│   │   └── ui
+│   │       ├── Alert.jsx
+│   │       ├── Button.jsx
+│   │       ├── FormField.jsx
+│   │       ├── LoadingSpinner.jsx
+│   │       ├── StatsCard.jsx
+│   │       └── StatusBadge.jsx
+│   ├── contexts
+│   │   └── AuthContext.jsx
+│   ├── data
+│   │   └── mockData.js
+│   ├── hooks
+│   │   ├── useAuth.js
+│   │   └── useProtectedEndpoint.js
+│   ├── index.css
+│   ├── main.jsx
+│   ├── pages
+│   │   ├── AdminPage.jsx
+│   │   ├── ClaimsPage.jsx
+│   │   ├── Dashboard.jsx
+│   │   ├── LoginPage.jsx
+│   │   └── Profile.jsx
+│   ├── services
+│   │   ├── adminService.js
+│   │   ├── apiService.js
+│   │   └── authService.js
+│   └── utils
+│       ├── constants.js
+│       ├── tokenUtils.js
+│       └── userUtils.js
+├── tailwind.config.js
+├── treemaker.sh
+└── vite.config.js
