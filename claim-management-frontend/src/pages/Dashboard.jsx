@@ -53,60 +53,96 @@ export const Dashboard = () => {
     }
   }, [token, isDevelopment]);
 
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      setError('');
-      
-      // FIXED: Validate user object exists and has ID
-      if (!user || !user.sub) {
-        setError('User information not available. Please login again.');
-        setLoading(false);
-        return;
-      }
+const fetchData = async () => {
+  try {
+    setLoading(true);
+    setError('');
+    
+    if (!user || !user.sub) {
+      setError('User information not available. Please login again.');
+      setLoading(false);
+      return;
+    }
 
-      if (isAdmin) {
-        // Admin sees all users
-        const usersResponse = await fetch('http://localhost:8080/api/users', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        
-        if (!usersResponse.ok) throw new Error('Failed to fetch users');
-        const usersData = await usersResponse.json();
-        
-        const formattedUsers = usersData.map(user => ({
-          id: user.sub,
-          employee_code: user.employee_code || `EMP${user.sub}`,
-          name: user.name,
-          role: user.role || 'ROLE_USER',
-          type: user.type === 'pensioner' ? 'Pensioner' : 'Active Employee',
-          department: user.department || (user.type === 'pensioner' ? 'Retired' : 'IT'),
-          dob: user.dob,
-          spouse_name: user.spouseName,
-          start_date: user.startDate,
-          lifetime_used: user.lifetimeUsed || 0,
-          annual_used: user.annualUsed || 0,
-          username: user.sub
-        }));
-        setUsers(formattedUsers);
-        
-        // Fetch all claims for admin
-        const claimsResponse = await fetch('http://localhost:8080/api/claims', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        
-        if (claimsResponse.ok) {
-          const claimsData = await claimsResponse.json();
-          setClaims(claimsData);
+    if (isAdmin) {
+      // Admin sees all users - now with clean DTO structure
+      const usersResponse = await fetch('http://localhost:8080/api/users', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
+      });
+      
+      if (!usersResponse.ok) {
+        throw new Error(`Failed to fetch users: ${usersResponse.status} ${usersResponse.statusText}`);
+      }
+      
+      const usersData = await usersResponse.json();
+      console.log('Users data from API (DTO):', usersData);
+      
+      const formattedUsers = usersData.map(userItem => ({
+        id: userItem.id,
+        employee_code: userItem.employee_code || `EMP${userItem.id}`,
+        name: userItem.name,
+        role: userItem.role || 'ROLE_USER',
+        type: userItem.type === 'pensioner' ? 'Pensioner' : 'Active Employee',
+        department: userItem.department || (userItem.type === 'pensioner' ? 'Retired' : 'IT'),
+        dob: userItem.dob,
+        spouse_name: userItem.spouseName,
+        start_date: userItem.startDate,
+        lifetime_used: userItem.lifetimeUsed || 0,
+        annual_used: userItem.annualUsed || 0,
+        username: userItem.username,
+        sub: userItem.username, // Map username to sub for consistency
+        // Claims are now properly formatted without circular references
+        claims: userItem.claims || []
+      }));
+      
+      setUsers(formattedUsers);
+      
+      // Fetch all claims separately for admin dashboard using DTO endpoint
+      const claimsResponse = await fetch('http://localhost:8080/api/claims', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (claimsResponse.ok) {
+        const claimsData = await claimsResponse.json();
+        console.log('Claims data from API (DTO):', claimsData);
+        setClaims(claimsData);
+      }
+    } else {
+      // Regular user flow - use profile endpoint for cleaner data
+      const profileResponse = await fetch(`http://localhost:8080/api/profile/${user.sub}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (profileResponse.ok) {
+        const profileData = await profileResponse.json();
+        const currentUser = {
+          id: profileData.id || user.sub,
+          employee_code: `EMP${profileData.id || user.sub}`,
+          name: profileData.name || profileData.fullName || user.sub,
+          role: user.role || 'ROLE_USER',
+          type: profileData.type === 'pensioner' ? 'Pensioner' : 'Active Employee',
+          department: profileData.department || 'Not Specified',
+          dob: profileData.dateOfBirth,
+          spouse_name: profileData.spouseName,
+          start_date: profileData.dateOfJoining,
+          lifetime_used: profileData.lifetimeUsed || 0,
+          annual_used: profileData.annualUsed || 0,
+          username: user.sub,
+          sub: user.sub
+        };
+        setUsers([currentUser]);
+        setSelectedUser(currentUser);
       } else {
-        // Regular user sees only their data
+        // Fallback to basic user data
         const currentUser = {
           id: user.sub,
           employee_code: user.employee_code || `EMP${user.sub}`,
@@ -119,44 +155,46 @@ export const Dashboard = () => {
           start_date: user.start_date,
           lifetime_used: user.lifetime_used || 0,
           annual_used: user.annual_used || 0,
-          username: user.sub || user.sub.toString()
+          username: user.sub,
+          sub: user.sub
         };
         setUsers([currentUser]);
         setSelectedUser(currentUser);
-        
-        // Fetch user claims
-        const claimsResponse = await fetch(`http://localhost:8080/api/claims/user/${user.sub}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        
-        if (claimsResponse.ok) {
-          const claimsData = await claimsResponse.json();
-          setClaims(claimsData);
-        }
-        
-        // Fetch quotas
-        const quotasResponse = await fetch(`http://localhost:8080/api/claims/quotas/${user.sub}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        
-        if (quotasResponse.ok) {
-          const quotasData = await quotasResponse.json();
-          setQuotas(quotasData);
-        }
       }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setError('Failed to load data. Please try again.');
-    } finally {
-      setLoading(false);
+      
+      // Fetch user claims using the clean DTO endpoint
+      const claimsResponse = await fetch(`http://localhost:8080/api/claims/user/${user.sub}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (claimsResponse.ok) {
+        const claimsData = await claimsResponse.json();
+        setClaims(claimsData);
+      }
+      
+      // Fetch quotas
+      const quotasResponse = await fetch(`http://localhost:8080/api/claims/quotas/${user.sub}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (quotasResponse.ok) {
+        const quotasData = await quotasResponse.json();
+        setQuotas(quotasData);
+      }
     }
-  };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    setError(`Failed to load data: ${error.message}`);
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Auto-scroll to profile section when a user is selected
   useEffect(() => {

@@ -1,5 +1,6 @@
 package com.icai.claims_management_system.controller;
 
+import com.icai.claims_management_system.dto.ClaimDTO;
 import com.icai.claims_management_system.model.Claim;
 import com.icai.claims_management_system.model.User;
 import com.icai.claims_management_system.service.ClaimService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/claims")
@@ -24,32 +26,35 @@ public class ClaimController {
     }
 
     @PostMapping("/user/{username}")
-    public ResponseEntity<Claim> submitClaim(@PathVariable String username, @RequestBody Claim claim) {
+    public ResponseEntity<ClaimDTO> submitClaim(@PathVariable String username, @RequestBody Claim claim) {
         User u = userService.findByUsername(username);
         if (u == null) return ResponseEntity.badRequest().build();
         claim.setUser(u);
-        return ResponseEntity.ok(claimService.save(claim));
+        Claim savedClaim = claimService.save(claim);
+        return ResponseEntity.ok(new ClaimDTO(savedClaim));
     }
 
     @GetMapping("/user/{username}")
-    public ResponseEntity<List<Claim>> listByUser(@PathVariable String username) {
+    public ResponseEntity<List<ClaimDTO>> listByUser(@PathVariable String username) {
         List<Claim> claims = claimService.findByUsername(username);
-        // Remove the 404 check - return 200 even with empty list
-        return ResponseEntity.ok(claims);
+        List<ClaimDTO> claimDTOs = claims.stream()
+            .map(ClaimDTO::new)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(claimDTOs);
     }
 
     @PostMapping("/approve/{id}")
-    public ResponseEntity<Claim> approve(@PathVariable Long id, Authentication auth) {
+    public ResponseEntity<ClaimDTO> approve(@PathVariable Long id, Authentication auth) {
         Claim updated = claimService.approve(id, auth.getName());
         if (updated == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(new ClaimDTO(updated));
     }
 
     @PostMapping("/reject/{id}")
-    public ResponseEntity<Claim> reject(@PathVariable Long id, Authentication auth) {
+    public ResponseEntity<ClaimDTO> reject(@PathVariable Long id, Authentication auth) {
         Claim updated = claimService.reject(id, auth.getName());
         if (updated == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(new ClaimDTO(updated));
     }
 
     @GetMapping("/quotas/{username}")
@@ -72,8 +77,11 @@ public class ClaimController {
     
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Claim>> getAllClaims() {
+    public ResponseEntity<List<ClaimDTO>> getAllClaims() {
         List<Claim> claims = claimService.findAll();
-        return ResponseEntity.ok(claims);
+        List<ClaimDTO> claimDTOs = claims.stream()
+            .map(ClaimDTO::new)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(claimDTOs);
     }
 }

@@ -24,21 +24,25 @@ public class ProfileController {
 
     @GetMapping("/{username}")
     public ResponseEntity<Map<String, Object>> profileInfo(@PathVariable String username) {
-    	User u = userService.findByUsername(username); 
+        User u = userService.findByUsername(username); 
         if (u == null) return ResponseEntity.notFound().build();
 
         Map<String, Object> out = new HashMap<>();
+        out.put("id", u.getId()); // Add ID for frontend
+        out.put("name", u.getName());
+        out.put("username", u.getUsername());
+        out.put("type", u.getType());
         out.put("fullName", u.getFullName());
 
-        if (u.getDateOfBirth() != null) {
-            int age = Period.between(u.getDateOfBirth(), LocalDate.now()).getYears();
-            out.put("dateOfBirth", u.getDateOfBirth());
+        if (u.getDob() != null) {
+            int age = Period.between(u.getDob(), LocalDate.now()).getYears();
+            out.put("dateOfBirth", u.getDob());
             out.put("age", age);
         }
 
-        if (u.getDateOfJoining() != null) {
-            int yearsOfService = Period.between(u.getDateOfJoining(), LocalDate.now()).getYears();
-            out.put("dateOfJoining", u.getDateOfJoining());
+        if (u.getStartDate() != null) {
+            int yearsOfService = Period.between(u.getStartDate(), LocalDate.now()).getYears();
+            out.put("dateOfJoining", u.getStartDate());
             out.put("yearsOfService", yearsOfService);
         }
 
@@ -49,8 +53,15 @@ public class ProfileController {
             if (u.getSpouseDob() != null) {
                 out.put("spouseAge", Period.between(u.getSpouseDob(), LocalDate.now()).getYears());
             }
-            out.put("dateOfExpiry", u.getDateOfExpiry());
+            out.put("dateOfExpiry", u.getExpiryDate());
         }
+
+        // Add department information
+        out.put("department", u.getType().equalsIgnoreCase("pensioner") ? "Retired" : "IT");
+        
+        // Add quota usage
+        out.put("lifetimeUsed", u.getLifetimeUsed() != null ? u.getLifetimeUsed() : 0.0);
+        out.put("annualUsed", u.getAnnualUsed() != null ? u.getAnnualUsed() : 0.0);
 
         return ResponseEntity.ok(out);
     }
