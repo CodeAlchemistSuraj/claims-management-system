@@ -10,8 +10,11 @@ export const Navigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log('Navigation - User:', user);
-  console.log('Navigation - isAuthenticated:', isAuthenticated);
+  // Only log in development
+
+    console.log('Navigation - User role:', user?.role);
+    console.log('Navigation - Should show admin link:', user?.role === USER_ROLES.ADMIN);
+  
 
   const handleLogout = () => {
     console.log('Logout button clicked');

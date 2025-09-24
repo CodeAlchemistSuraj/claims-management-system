@@ -36,11 +36,14 @@ public class Claim {
     private String approverUsername;
     private LocalDateTime approvalDate;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id") // Add this line
+    // FIX: Add proper ManyToOne mapping
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+
+    // FIX: Change to eager fetching for bills and proper mapping
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "claim_id")
     private List<BillLineItem> bills = new ArrayList<>();
 

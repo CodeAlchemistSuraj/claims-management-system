@@ -58,8 +58,28 @@ public class JwtUtil implements Serializable {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        
+        // Add user role to claims - PROPERLY remove ROLE_ prefix
+        String role = userDetails.getAuthorities().stream()
+                .findFirst()
+                .map(grantedAuthority -> {
+                    String authority = grantedAuthority.getAuthority();
+                    System.out.println("Raw authority: " + authority); // Debug
+                    // Remove "ROLE_" prefix if present
+                    if (authority.startsWith("ROLE_")) {
+                        return authority.substring(5); // Remove "ROLE_"
+                    }
+                    return authority;
+                })
+                .orElse("USER");
+        
+        System.out.println("Final role for token: " + role); // Debug
+        claims.put("role", role);
+        
         return doGenerateToken(claims, userDetails.getUsername());
     }
+    
+    
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()

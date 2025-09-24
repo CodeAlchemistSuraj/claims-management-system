@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { Button } from '../components/ui/Button';
@@ -7,8 +7,23 @@ import { Plus, FileText, User, Folder, Clock, CheckCircle, Search, LogOut } from
 export const Dashboard = () => {
   const { user, logout, token } = useAuth();
   const navigate = useNavigate();
-  const isAdmin = user?.role === 'ROLE_ADMIN'; // Match your backend role format
   
+  // Fix role checking - your JWT contains 'ADMIN' not 'ROLE_ADMIN'
+  const isAdmin = useMemo(() => user?.role === 'ADMIN', [user?.role]);
+  
+  // Only log in development
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
+  if (isDevelopment) {
+    useEffect(() => {
+      if (token) {
+        const decoded = JSON.parse(atob(token.split('.')[1]));
+        console.log('JWT Decoded payload:', decoded);
+        console.log('Is admin?:', isAdmin);
+      }
+    }, [token, isAdmin]);
+  }
+
   const [users, setUsers] = useState([]);
   const [claims, setClaims] = useState([]);
   const [quotas, setQuotas] = useState(null);
@@ -25,29 +40,30 @@ export const Dashboard = () => {
     fetchData();
   }, []);
 
-
-    // DEBUG: Check what's in the decoded JWT
+  // DEBUG: Check what's in the decoded JWT (development only)
   useEffect(() => {
-    if (token) {
+    if (isDevelopment && token) {
       const decoded = JSON.parse(atob(token.split('.')[1]));
       console.log('JWT Decoded payload:', decoded);
       console.log('JWT Available keys:', Object.keys(decoded));
+      console.log('User object:', user);
+      console.log('User role:', user?.role);
+      console.log('Is admin?:', user?.role === 'ADMIN');
+      console.log('Is ROLE_ADMIN?:', user?.role === 'ROLE_ADMIN');
     }
-  }, [token]);
+  }, [token, isDevelopment]);
 
   const fetchData = async () => {
     try {
       setLoading(true);
       setError('');
       
-          // FIXED: Validate user object exists and has ID
-    if (!user || !user.sub) {
-      setError('User information not available. Please login again.');
-      setLoading(false);
-      return;
-    }
-
-
+      // FIXED: Validate user object exists and has ID
+      if (!user || !user.sub) {
+        setError('User information not available. Please login again.');
+        setLoading(false);
+        return;
+      }
 
       if (isAdmin) {
         // Admin sees all users
@@ -94,7 +110,7 @@ export const Dashboard = () => {
         const currentUser = {
           id: user.sub,
           employee_code: user.employee_code || `EMP${user.sub}`,
-          name: user.name || user.sub || 'Unknown User', // Add username fallback
+          name: user.name || user.sub || 'Unknown User',
           role: user.role || 'ROLE_USER',
           type: user.type === 'pensioner' ? 'Pensioner' : 'Active Employee',
           department: user.department || 'Not Specified',
@@ -103,7 +119,7 @@ export const Dashboard = () => {
           start_date: user.start_date,
           lifetime_used: user.lifetime_used || 0,
           annual_used: user.annual_used || 0,
-          username: user.sub || user.sub.toString() // Ensure username exists
+          username: user.sub || user.sub.toString()
         };
         setUsers([currentUser]);
         setSelectedUser(currentUser);
@@ -154,40 +170,38 @@ export const Dashboard = () => {
     }
   }, [selectedUser]);
 
-const handleUserSelect = async (selectedUser) => { // ✅ Correct parameter name
-  setSelectedUser(selectedUser);
-  
-  try {
-    // Use selectedUser.sub (correct variable name)
-    const claimsResponse = await fetch(`http://localhost:8080/api/claims/user/${selectedUser.sub}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+  const handleUserSelect = async (selectedUser) => {
+    setSelectedUser(selectedUser);
+    
+    try {
+      const claimsResponse = await fetch(`http://localhost:8080/api/claims/user/${selectedUser.sub}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (claimsResponse.ok) {
+        const claimsData = await claimsResponse.json();
+        setClaims(claimsData);
       }
-    });
-    
-    if (claimsResponse.ok) {
-      const claimsData = await claimsResponse.json();
-      setClaims(claimsData);
-    }
-    
-    // Use selectedUser.sub (correct variable name)
-    const quotasResponse = await fetch(`http://localhost:8080/api/claims/quotas/${selectedUser.sub}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+      
+      const quotasResponse = await fetch(`http://localhost:8080/api/claims/quotas/${selectedUser.sub}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (quotasResponse.ok) {
+        const quotasData = await quotasResponse.json();
+        setQuotas(quotasData);
       }
-    });
-    
-    if (quotasResponse.ok) {
-      const quotasData = await quotasResponse.json();
-      setQuotas(quotasData);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      setError('Failed to load user data.');
     }
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-    setError('Failed to load user data.');
-  }
-};
+  };
 
   // Format claim data for UI display
   const formatClaimForUI = (claim) => ({
@@ -210,34 +224,37 @@ const handleUserSelect = async (selectedUser) => { // ✅ Correct parameter name
             claim.status === 'REJECTED' ? 'Rejected' : 'Pending'
   });
 
-// FIXED: Safe user filtering
-const filteredUsers = users.filter(user => {
-  if (!user) return false;
-  
-  const searchText = [
-    user.name || '',
-    user.employee_code || '',
-    user.department || ''
-  ].join(' ').toLowerCase();
-  
-  return searchText.includes(searchEmployee.toLowerCase());
-});
+  // Use useMemo for optimized filtering
+  const filteredUsers = useMemo(() => {
+    return users.filter(user => {
+      if (!user) return false;
+      
+      const searchText = [
+        user.name || '',
+        user.employee_code || '',
+        user.department || ''
+      ].join(' ').toLowerCase();
+      
+      return searchText.includes(searchEmployee.toLowerCase());
+    });
+  }, [users, searchEmployee]);
 
-// FIXED: Safe claims filtering
-const filteredClaims = claims
-  .map(formatClaimForUI)
-  .filter(claim => {
-    if (!claim) return false;
-    
-    const searchText = [
-      claim.claimCount || '',
-      claim.patient || '',
-      claim.hospital || '',
-      claim.disease || ''
-    ].join(' ').toLowerCase();
-    
-    return searchText.includes(searchClaim.toLowerCase());
-  });
+  const filteredClaims = useMemo(() => {
+    return claims
+      .map(formatClaimForUI)
+      .filter(claim => {
+        if (!claim) return false;
+        
+        const searchText = [
+          claim.claimCount || '',
+          claim.patient || '',
+          claim.hospital || '',
+          claim.disease || ''
+        ].join(' ').toLowerCase();
+        
+        return searchText.includes(searchClaim.toLowerCase());
+      });
+  }, [claims, searchClaim]);
 
   // Calculate stats from real data
   const totalClaims = claims.length;

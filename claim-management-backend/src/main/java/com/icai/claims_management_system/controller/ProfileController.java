@@ -24,7 +24,7 @@ public class ProfileController {
 
     @GetMapping("/{username}")
     public ResponseEntity<Map<String, Object>> profileInfo(@PathVariable String username) {
-        User u = userService.findByUsername(username);
+    	User u = userService.findByUsername(username); 
         if (u == null) return ResponseEntity.notFound().build();
 
         Map<String, Object> out = new HashMap<>();

@@ -5,6 +5,7 @@ import com.icai.claims_management_system.model.User;
 import com.icai.claims_management_system.service.ClaimService;
 import com.icai.claims_management_system.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,5 +68,12 @@ public class ClaimController {
                 "lifetimeRemaining", lifetimeRemaining,
                 "yearRemaining", yearRemaining
         ));
+    }
+    
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<Claim>> getAllClaims() {
+        List<Claim> claims = claimService.findAll();
+        return ResponseEntity.ok(claims);
     }
 }

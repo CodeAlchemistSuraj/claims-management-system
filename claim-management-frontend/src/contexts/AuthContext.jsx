@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { authService } from '../services/authService.js';
 import { tokenUtils } from '../utils/tokenUtils.js';
 import { userUtils } from '../utils/userUtils.js';
@@ -11,8 +11,13 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(userUtils.get());
   const [loading, setLoading] = useState(false);
 
-  console.log('AuthContext - Current token:', token);
-  console.log('AuthContext - Current user:', user);
+  // Only log in development
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('AuthContext - Current token:', token);
+      console.log('AuthContext - Current user:', user);
+    }
+  }, [token, user]);
 
   const login = async (username, password) => {
     setLoading(true);
@@ -34,13 +39,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    console.log('Logout function called');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Logout function called');
+    }
     setToken(null);
     setUser(null);
     tokenUtils.remove();
     userUtils.remove();
-    console.log('After logout - token should be null:', tokenUtils.get());
-    console.log('After logout - user should be null:', userUtils.get());
   };
 
   const value = {
@@ -50,7 +55,7 @@ export const AuthProvider = ({ children }) => {
     logout,
     loading,
     isAuthenticated: !!token,
-    isAdmin: user?.role === USER_ROLES.ADMIN
+    isAdmin: user?.role === 'ROLE_ADMIN'
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

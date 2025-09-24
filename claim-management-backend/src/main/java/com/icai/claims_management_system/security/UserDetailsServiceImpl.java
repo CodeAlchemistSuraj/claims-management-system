@@ -30,11 +30,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = optionalUser.orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
         // FIXED: Handle UserRole enum correctly
-        String role = user.getRole().name(); // Use .name() to get the enum value as String
-        
-        // Add ROLE_ prefix for Spring Security
+     // Use the role directly - no need to add ROLE_ prefix since your enum already has it
+        String role = user.getRole().name(); // This returns "ROLE_ADMIN" or "ROLE_USER"
+
         List<SimpleGrantedAuthority> authorities = Collections.singletonList(
-            new SimpleGrantedAuthority("ROLE_" + role) // Converts "USER" to "ROLE_USER"
+            new SimpleGrantedAuthority(role) // Use the role as-is: "ROLE_ADMIN"
         );
 
         // Return the Spring Security UserDetails object with the correct role

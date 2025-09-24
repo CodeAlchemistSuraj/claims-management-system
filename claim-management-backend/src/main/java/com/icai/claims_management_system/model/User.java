@@ -2,11 +2,15 @@ package com.icai.claims_management_system.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -64,7 +68,13 @@ public class User {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
     
-    
+    // Add this relationship mapping
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Claim> claims = new ArrayList<>();
+
+    // Add getter and setter
+    public List<Claim> getClaims() { return claims; }
+    public void setClaims(List<Claim> claims) { this.claims = claims; }
 
     // Getters and Setters
     public Long getId() { return id; }
