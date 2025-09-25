@@ -1,26 +1,23 @@
+// src/components/layout/Navigation.jsx
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FileText, Shield, LogOut } from 'lucide-react';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth'; // Fixed import path
 import { Button } from '../ui/Button';
-import { USER_ROLES } from '../../utils/constants';
+import { USER_ROLES } from '../../utils/constants'; // Fixed import path
 
 export const Navigation = () => {
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated, isAdmin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Only log in development
-
-    console.log('Navigation - User role:', user?.role);
-    console.log('Navigation - Should show admin link:', user?.role === USER_ROLES.ADMIN);
-  
+  console.log('Navigation - User role:', user?.role);
+  console.log('Navigation - Should show admin link:', isAdmin);
 
   const handleLogout = () => {
     console.log('Logout button clicked');
     logout(); 
     navigate('/login');
-    // Force a page reload to ensure state is cleared
     window.location.reload();
   };
 
@@ -47,7 +44,7 @@ export const Navigation = () => {
           <Link to="/claims" className={linkClass('/claims')}>
             <FileText size={16} /> Claims
           </Link>
-          {user?.role === USER_ROLES.ADMIN && (
+          {isAdmin && (
             <Link to="/admin" className={linkClass('/admin')}>
               <Shield size={16} /> Admin
             </Link>

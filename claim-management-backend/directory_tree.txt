@@ -1,0 +1,149 @@
+├── .classpath
+├── .mvn
+│   └── wrapper
+│       └── maven-wrapper.properties
+├── .project
+├── .settings
+│   ├── org.eclipse.core.resources.prefs
+│   └── org.eclipse.jdt.core.prefs
+├── LICENSE
+├── README.md
+├── bin
+│   ├── .mvn
+│   │   └── wrapper
+│   │       └── maven-wrapper.properties
+│   ├── .project
+│   ├── .settings
+│   │   └── org.eclipse.core.resources.prefs
+│   ├── LICENSE
+│   ├── README.md
+│   ├── claim-management-backend.zip
+│   ├── claims-management-system
+│   │   └── .project
+│   ├── mvnw
+│   ├── pom.xml
+│   ├── src
+│   │   └── main
+│   │       └── resources
+│   │           ├── application.properties
+│   │           └── db
+│   │               └── migration
+│   │                   ├── V1__init.sql
+│   │                   └── V2__add_claim_status.sql
+│   └── target
+│       └── classes
+│           └── META-INF
+│               └── MANIFEST.MF
+├── claim-management-backend.zip
+├── claims-management-system
+│   └── .project
+├── directory_tree.txt
+├── mvnw
+├── pom.xml
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── icai
+│   │   │           └── claims_management_system
+│   │   │               ├── ClaimsManagementSystemApplication.java
+│   │   │               ├── config
+│   │   │               │   └── WebConfig.java
+│   │   │               ├── controller
+│   │   │               │   ├── AuthController.java
+│   │   │               │   ├── ClaimController.java
+│   │   │               │   ├── ProfileController.java
+│   │   │               │   ├── QuotaController.java
+│   │   │               │   └── UserController.java
+│   │   │               ├── dto
+│   │   │               │   ├── ClaimDTO.java
+│   │   │               │   ├── JwtResponse.java
+│   │   │               │   ├── LoginRequest.java
+│   │   │               │   └── UserDTO.java
+│   │   │               ├── model
+│   │   │               │   ├── BillLineItem.java
+│   │   │               │   ├── Claim.java
+│   │   │               │   ├── ClaimStatus.java
+│   │   │               │   ├── User.java
+│   │   │               │   └── UserRole.java
+│   │   │               ├── repository
+│   │   │               │   ├── ClaimRepository.java
+│   │   │               │   └── UserRepository.java
+│   │   │               ├── security
+│   │   │               │   ├── JwtRequestFilter.java
+│   │   │               │   ├── SecurityConfig.java
+│   │   │               │   └── UserDetailsServiceImpl.java
+│   │   │               ├── service
+│   │   │               │   ├── ClaimService.java
+│   │   │               │   └── UserService.java
+│   │   │               └── util
+│   │   │                   ├── JwtUtil.java
+│   │   │                   └── PasswordHasher.java
+│   │   └── resources
+│   │       ├── application.properties
+│   │       └── db
+│   │           └── migration
+│   │               ├── V1__init.sql
+│   │               └── V2__add_claim_status.sql
+│   └── test
+│       └── java
+│           └── com
+│               └── icai
+│                   └── claims_management_system
+│                       └── ClaimsManagementSystemApplicationTests.java
+├── target
+│   ├── classes
+│   │   ├── META-INF
+│   │   │   ├── MANIFEST.MF
+│   │   │   └── maven
+│   │   │       └── com.icai
+│   │   │           └── claims-management-system
+│   │   │               ├── pom.properties
+│   │   │               └── pom.xml
+│   │   ├── application.properties
+│   │   ├── com
+│   │   │   └── icai
+│   │   │       └── claims_management_system
+│   │   │           ├── ClaimsManagementSystemApplication.class
+│   │   │           ├── config
+│   │   │           │   └── WebConfig.class
+│   │   │           ├── controller
+│   │   │           │   ├── AuthController.class
+│   │   │           │   ├── ClaimController.class
+│   │   │           │   ├── ProfileController.class
+│   │   │           │   ├── QuotaController.class
+│   │   │           │   └── UserController.class
+│   │   │           ├── dto
+│   │   │           │   ├── ClaimDTO.class
+│   │   │           │   ├── JwtResponse.class
+│   │   │           │   ├── LoginRequest.class
+│   │   │           │   └── UserDTO.class
+│   │   │           ├── model
+│   │   │           │   ├── BillLineItem.class
+│   │   │           │   ├── Claim.class
+│   │   │           │   ├── ClaimStatus.class
+│   │   │           │   ├── User.class
+│   │   │           │   └── UserRole.class
+│   │   │           ├── repository
+│   │   │           │   ├── ClaimRepository.class
+│   │   │           │   └── UserRepository.class
+│   │   │           ├── security
+│   │   │           │   ├── JwtRequestFilter.class
+│   │   │           │   ├── SecurityConfig.class
+│   │   │           │   └── UserDetailsServiceImpl.class
+│   │   │           ├── service
+│   │   │           │   ├── ClaimService.class
+│   │   │           │   └── UserService.class
+│   │   │           └── util
+│   │   │               ├── JwtUtil.class
+│   │   │               └── PasswordHasher.class
+│   │   └── db
+│   │       └── migration
+│   │           ├── V1__init.sql
+│   │           └── V2__add_claim_status.sql
+│   └── test-classes
+│       └── com
+│           └── icai
+│               └── claims_management_system
+│                   └── ClaimsManagementSystemApplicationTests.class
+└── treemaker.sh

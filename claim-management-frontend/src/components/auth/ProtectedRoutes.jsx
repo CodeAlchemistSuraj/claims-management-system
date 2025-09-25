@@ -1,6 +1,7 @@
+// src/components/auth/ProtectedRoutes.jsx
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth'; // Fixed import path
 
 export const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -8,7 +9,7 @@ export const PrivateRoute = ({ children }) => {
 };
 
 export const AdminRoute = ({ children }) => {
-  const { isAuthenticated, isAdmin } = useAuth();
+  const { isAuthenticated, user } = useAuth(); // Get user object
   if (!isAuthenticated) return <Navigate to="/login" />;
-  return isAdmin ? children : <Navigate to="/dashboard" />;
+  return user?.role === 'ROLE_ADMIN' ? children : <Navigate to="/dashboard" />;
 };

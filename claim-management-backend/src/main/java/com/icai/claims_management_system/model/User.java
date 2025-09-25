@@ -1,6 +1,8 @@
 package com.icai.claims_management_system.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -16,10 +18,8 @@ import java.util.List;
 @Table(name = "users")
 public class User {
 
-	
-	
-	
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Add this line
     @Column(name = "id")
     private Long id;
 
@@ -68,6 +68,18 @@ public class User {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
     
+    // ADD THIS: Role column mapping
+    @Column(name = "role")
+    private String role;
+    
+    // ADD THIS: Employee code column mapping
+    @Column(name = "employee_code")
+    private String employeeCode;
+    
+    // ADD THIS: Department column mapping
+    @Column(name = "department")
+    private String department;
+
     // Add this relationship mapping
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Claim> claims = new ArrayList<>();
@@ -128,14 +140,29 @@ public class User {
     public Timestamp getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Timestamp updatedAt) { this.updatedAt = updatedAt; }
 
-    // Custom methods to bridge the gap between the database and the controllers
-    public UserRole getRole() {
+    // ADD GETTERS AND SETTERS FOR NEW FIELDS
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
+    
+    public String getEmployeeCode() { return employeeCode; }
+    public void setEmployeeCode(String employeeCode) { this.employeeCode = employeeCode; }
+    
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
+
+    // FIXED: Use the role from database column instead of calculating from type
+    public UserRole getRoleEnum() {
+        if (this.role != null) {
+            return "ADMIN".equalsIgnoreCase(this.role) ? UserRole.ROLE_ADMIN : UserRole.ROLE_USER;
+        }
+        // Fallback to type-based role calculation if role column is null
         if ("pensioner".equalsIgnoreCase(this.type)) {
             return UserRole.ROLE_ADMIN;
         }
         return UserRole.ROLE_USER;
     }
 
+    // Keep existing methods for compatibility
     public boolean isPensioner() {
         return "pensioner".equalsIgnoreCase(this.type);
     }

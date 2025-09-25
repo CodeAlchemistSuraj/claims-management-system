@@ -17,16 +17,11 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil implements Serializable {
-
     private static final long serialVersionUID = -2550185165626007488L;
-
-    public static final long JWT_TOKEN_VALIDITY = 10 * 60 * 60 * 1000; // 10 hours in ms
-
+    public static final long JWT_TOKEN_VALIDITY = 10 * 60 * 60 * 1000;
     private final SecretKey key;
 
-    // Inject secret from application.properties or use default long key
     public JwtUtil(@Value("${jwt.secret:defaultSuperLongSecretKeyForDevelopmentOnly_ReplaceInProdWith64+Chars!!}") String secret) {
-        // Must be at least 64 bytes for HS512
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -58,28 +53,18 @@ public class JwtUtil implements Serializable {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        
-        // Add user role to claims - PROPERLY remove ROLE_ prefix
         String role = userDetails.getAuthorities().stream()
                 .findFirst()
                 .map(grantedAuthority -> {
                     String authority = grantedAuthority.getAuthority();
-                    System.out.println("Raw authority: " + authority); // Debug
-                    // Remove "ROLE_" prefix if present
-                    if (authority.startsWith("ROLE_")) {
-                        return authority.substring(5); // Remove "ROLE_"
-                    }
-                    return authority;
+                    System.out.println("Raw authority: " + authority);
+                    return authority; // Keep "ROLE_ADMIN" or "ROLE_USER"
                 })
-                .orElse("USER");
-        
-        System.out.println("Final role for token: " + role); // Debug
+                .orElse("ROLE_USER");
+        System.out.println("Final role for token: " + role);
         claims.put("role", role);
-        
         return doGenerateToken(claims, userDetails.getUsername());
     }
-    
-    
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()

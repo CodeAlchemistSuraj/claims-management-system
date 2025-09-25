@@ -9,7 +9,7 @@ export const Dashboard = () => {
   const navigate = useNavigate();
   
   // Fix role checking - your JWT contains 'ADMIN' not 'ROLE_ADMIN'
-  const isAdmin = useMemo(() => user?.role === 'ADMIN', [user?.role]);
+  const isAdmin = useMemo(() => user?.role === 'ROLE_ADMIN', [user?.role]);
   
   // Only log in development
   const isDevelopment = process.env.NODE_ENV === 'development';

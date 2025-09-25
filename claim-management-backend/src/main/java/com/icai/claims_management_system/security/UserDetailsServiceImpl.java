@@ -21,23 +21,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+ // In UserDetailsServiceImpl.java - update the role retrieval
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Find the user by username in the database
         Optional<User> optionalUser = userRepository.findByUsername(username);
-
-        // Get the User object or throw an exception if not found
         User user = optionalUser.orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
-        // FIXED: Handle UserRole enum correctly
-     // Use the role directly - no need to add ROLE_ prefix since your enum already has it
-        String role = user.getRole().name(); // This returns "ROLE_ADMIN" or "ROLE_USER"
+        // FIXED: Use getRoleEnum() which now properly reads from database column
+        String role = user.getRoleEnum().name(); // This returns "ROLE_ADMIN" or "ROLE_USER"
 
         List<SimpleGrantedAuthority> authorities = Collections.singletonList(
-            new SimpleGrantedAuthority(role) // Use the role as-is: "ROLE_ADMIN"
+            new SimpleGrantedAuthority(role)
         );
 
-        // Return the Spring Security UserDetails object with the correct role
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),

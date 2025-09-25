@@ -1,5 +1,8 @@
 ├── .git
+│   ├── COMMIT_EDITMSG
+│   ├── FETCH_HEAD
 │   ├── HEAD
+│   ├── ORIG_HEAD
 │   ├── config
 │   ├── description
 │   ├── hooks
@@ -27,161 +30,218 @@
 │   │       │   └── main
 │   │       └── remotes
 │   │           └── origin
-│   │               └── HEAD
+│   │               ├── HEAD
+│   │               └── main
 │   ├── objects
+│   │   ├── 03
+│   │   │   └── d01b441172c7f5bb474cb5197bc4ec2d715fe2
+│   │   ├── 1d
+│   │   │   └── 2774e686a968fe8b0ed32b2103fcec67bd75db
+│   │   ├── 1f
+│   │   │   └── af9d04921552bc719146100c24a1115e990b51
+│   │   ├── 28
+│   │   │   └── 326f886214668d07139aac77c913b0319c1d86
+│   │   ├── 31
+│   │   │   └── 009db1ef0223822f5ff4edc0d1643d1905c986
+│   │   ├── 36
+│   │   │   └── 07a1328afae2ebaae6f2492fd688bf01e7c7e0
+│   │   ├── 38
+│   │   │   └── ce2bf3a5d8f1ea7fb635425d8220ece1221086
+│   │   ├── 39
+│   │   │   └── d844c6bbf74a89f5d184551587e1e1c8dc9d18
+│   │   ├── 3a
+│   │   │   └── f742d2f3ed206c4afd9b24ff7f45ec69abf2d0
+│   │   ├── 41
+│   │   │   └── 07695b13d6d7741b87bfee758c6cc637212c00
+│   │   ├── 43
+│   │   │   └── e9bf9f643bd2528e4ab6113bb5a6dcd2e0bb83
+│   │   ├── 45
+│   │   │   └── 802cefcfd40cfb539ececc7af41a35bab9bd60
+│   │   ├── 48
+│   │   │   └── 3e8d2bc101e8ee8ac27bc05fc85fc269a7e5ed
+│   │   ├── 4f
+│   │   │   └── bb4f29cc5bca04b446cd36153c536f408add54
+│   │   ├── 55
+│   │   │   └── 98d2d4c66cc08d7c0ec58f846f929b6d7e5976
+│   │   ├── 5a
+│   │   │   └── d62bf77ce8d2b79adae469217f39668c0bbc6b
+│   │   ├── 5b
+│   │   │   └── 55972a8ead45b15df0b6565b24f29cc464880f
+│   │   ├── 5d
+│   │   │   └── 813d3518b17046b1ee3f0dc0d1f60b866594f4
+│   │   ├── 65
+│   │   │   └── 5fdb2f569cf9c7a94cebfd595edecb1b39439c
+│   │   ├── 66
+│   │   │   ├── 4b797f61e8de2eadd30ba6bc8b756826c62acd
+│   │   │   └── eb0adda27609b1644d6a391b6cc321d3d2c4df
+│   │   ├── 67
+│   │   │   └── f846e6ffd67e4e19b4ba7a2dc30efdf0de304e
+│   │   ├── 69
+│   │   │   └── bda47ef1516453bec5dcd987f18704b9dd9c26
+│   │   ├── 6a
+│   │   │   └── f3566e3e4c5000ff0bb833972113ab8b3755f4
+│   │   ├── 6b
+│   │   │   └── 8135f7a0b30ecc6ccfaef8f9348ea0cf1c8f1d
+│   │   ├── 75
+│   │   │   └── dd1c0b9e56261ce74bdedb1d3d635c1c128ceb
+│   │   ├── 7e
+│   │   │   └── 51f861937e51265ed2f480c356d84ec65ccb86
+│   │   ├── 89
+│   │   │   └── e4915d798c683d59dbdf1493bdfcaf90102a2d
+│   │   ├── 8c
+│   │   │   └── f3a9ccc72760f17db7fa2f462bb058ee814003
+│   │   ├── 95
+│   │   │   └── 88b893265ca5cf3738fe9ca98eb63730fe590d
+│   │   ├── 99
+│   │   │   └── afec86075a4ef2948dec8b3b078fd81ce0976e
+│   │   ├── 9c
+│   │   │   └── 34561e73e01f128bdb2dc493f62eda769dd0c1
+│   │   ├── a4
+│   │   │   ├── 07fca055c19afe206bc147177010e743139202
+│   │   │   └── 811da2dee420f42763df55768b3f7fdae33504
+│   │   ├── a5
+│   │   │   └── 7c8c5bcc19cce88af9f8b86abd430009a700f6
+│   │   ├── b8
+│   │   │   └── b3f1af70f3ef5c237ea7fb2db4cf7d5adf4539
+│   │   ├── b9
+│   │   │   └── cbadc888a9f5afa97cbf1cf5617fc3d4ec7063
+│   │   ├── bc
+│   │   │   └── 0614d569355cb6944166935e0c31bd95214deb
+│   │   ├── be
+│   │   │   └── c8be2db6a2c2e8be83a02be42f76774aa222f9
+│   │   ├── c0
+│   │   │   └── 1e137bb8e4aa3c4c0026230153d9bf6a48b686
+│   │   ├── c3
+│   │   │   └── bbe339035517488d417e9947823cccbdfac0e5
+│   │   ├── d0
+│   │   │   └── bd2c174fca5d130a67cdf76706b68f435dfe14
+│   │   ├── d1
+│   │   │   └── 9c6161558b3d8b4f2ddf32ab5c0edf3e2e5ad7
+│   │   ├── d2
+│   │   │   └── e8d1ab465b1bc88dd742dd7f8c5ce23f340210
+│   │   ├── d3
+│   │   │   └── d990b49e50478fda9fccc7dd31ca1a696052dd
+│   │   ├── d5
+│   │   │   └── b658726c8ba000722d5325995877bce125ef5f
+│   │   ├── df
+│   │   │   └── 01561c9b8c6539c14511eb2f91aa4015b4b3e0
+│   │   ├── e4
+│   │   │   └── 7dfe3784c055b3c9408532dd671bb77182a1ea
+│   │   ├── f0
+│   │   │   └── 7922b3271f1cd756cd47b9afcee8e02b178663
+│   │   ├── f3
+│   │   │   └── 6b93f666fbaf9cf30cc968c09b1275b634c993
+│   │   ├── f5
+│   │   │   └── dca8faad6965218e643204a6652811b74349e7
+│   │   ├── fa
+│   │   │   └── 00cd6e22a8cc137c98398eb56162c27eaf7afd
+│   │   ├── fb
+│   │   │   └── 12ff68f602aa3635e0c68710a00409243796b0
+│   │   ├── fd
+│   │   │   └── aacb6372167d9756a1b542bd1f9e113ab9c71c
 │   │   ├── info
 │   │   └── pack
-│   │       ├── pack-9f2eb8a1fc7ef287aaaadccc0e36c098b26a687d.idx
-│   │       ├── pack-9f2eb8a1fc7ef287aaaadccc0e36c098b26a687d.pack
-│   │       └── pack-9f2eb8a1fc7ef287aaaadccc0e36c098b26a687d.rev
+│   │       ├── pack-b14f3efb7bccb94905bc19436eb95ad1826213f6.idx
+│   │       ├── pack-b14f3efb7bccb94905bc19436eb95ad1826213f6.pack
+│   │       ├── pack-b14f3efb7bccb94905bc19436eb95ad1826213f6.rev
+│   │       ├── pack-ef272904688732cd1dcdc1d7e72d5a1759aa679b.idx
+│   │       ├── pack-ef272904688732cd1dcdc1d7e72d5a1759aa679b.pack
+│   │       └── pack-ef272904688732cd1dcdc1d7e72d5a1759aa679b.rev
 │   ├── packed-refs
 │   └── refs
 │       ├── heads
 │       │   └── main
 │       ├── remotes
 │       │   └── origin
-│       │       └── HEAD
+│       │       ├── HEAD
+│       │       └── main
 │       └── tags
+├── .gitignore
 ├── LICENSE
 ├── README.md
 ├── claim-management-backend
 │   ├── .classpath
-│   ├── .gitattributes
-│   ├── .gitignore
-│   ├── .idea
-│   │   ├── .gitignore
-│   │   ├── compiler.xml
-│   │   ├── encodings.xml
-│   │   ├── httpRequests
-│   │   │   ├── 2025-09-22T115301.401.json
-│   │   │   ├── 2025-09-22T115510.401.txt
-│   │   │   ├── 2025-09-22T115618.401.txt
-│   │   │   ├── 2025-09-22T115634.401.txt
-│   │   │   ├── 2025-09-22T115834.401.txt
-│   │   │   ├── 2025-09-22T115902.401.txt
-│   │   │   ├── 2025-09-22T115953.401.txt
-│   │   │   ├── 2025-09-22T120038.401.txt
-│   │   │   ├── 2025-09-22T120150.401.txt
-│   │   │   ├── 2025-09-22T120202.401.txt
-│   │   │   ├── 2025-09-22T120509.401.txt
-│   │   │   ├── 2025-09-22T120515.401.txt
-│   │   │   ├── 2025-09-22T120606.401.txt
-│   │   │   ├── 2025-09-22T120805.401.txt
-│   │   │   ├── 2025-09-22T120809.401.txt
-│   │   │   ├── 2025-09-22T120811.401.txt
-│   │   │   ├── 2025-09-22T120849.401.txt
-│   │   │   ├── 2025-09-22T120911.401.txt
-│   │   │   ├── 2025-09-22T121047.401.txt
-│   │   │   ├── 2025-09-22T121434.401.txt
-│   │   │   ├── 2025-09-22T121741.401.txt
-│   │   │   ├── 2025-09-22T121744.401.txt
-│   │   │   ├── 2025-09-22T122052.200.txt
-│   │   │   ├── http-client.cookies
-│   │   │   └── http-requests-log.http
-│   │   ├── jarRepositories.xml
-│   │   ├── misc.xml
-│   │   ├── vcs.xml
-│   │   └── workspace.xml
 │   ├── .mvn
 │   │   └── wrapper
 │   │       └── maven-wrapper.properties
 │   ├── .project
 │   ├── .settings
 │   │   ├── org.eclipse.core.resources.prefs
-│   │   ├── org.eclipse.jdt.core.prefs
-│   │   └── org.eclipse.m2e.core.prefs
-│   ├── .vscode
-│   │   └── settings.json
+│   │   └── org.eclipse.jdt.core.prefs
 │   ├── LICENSE
 │   ├── README.md
 │   ├── bin
-│   │   ├── .gitattributes
-│   │   ├── .gitignore
 │   │   ├── .mvn
 │   │   │   └── wrapper
 │   │   │       └── maven-wrapper.properties
+│   │   ├── .project
+│   │   ├── .settings
+│   │   │   └── org.eclipse.core.resources.prefs
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── claim-management-backend.zip
+│   │   ├── claims-management-system
+│   │   │   └── .project
 │   │   ├── mvnw
-│   │   ├── mvnw.cmd
 │   │   ├── pom.xml
-│   │   └── src
-│   │       ├── main
-│   │       │   ├── java
-│   │       │   │   └── com
-│   │       │   │       └── icai
-│   │       │   │           └── claims_management_system
-│   │       │   │               ├── ClaimsManagementSystemApplication.class
-│   │       │   │               ├── DataInitializer.class
-│   │       │   │               ├── controller
-│   │       │   │               │   ├── ClaimController.class
-│   │       │   │               │   ├── ProfileController.class
-│   │       │   │               │   └── UserController.class
-│   │       │   │               ├── model
-│   │       │   │               │   ├── BillLineItem.class
-│   │       │   │               │   ├── Claim.class
-│   │       │   │               │   ├── ClaimStatus.class
-│   │       │   │               │   ├── User.class
-│   │       │   │               │   └── UserRole.class
-│   │       │   │               ├── repository
-│   │       │   │               │   ├── ClaimRepository.class
-│   │       │   │               │   └── UserRepository.class
-│   │       │   │               ├── security
-│   │       │   │               │   └── SecurityConfig.class
-│   │       │   │               └── service
-│   │       │   │                   ├── ClaimService.class
-│   │       │   │                   └── UserService.class
-│   │       │   └── resources
-│   │       │       ├── application.properties
-│   │       │       └── db
-│   │       │           └── migration
-│   │       │               ├── V1__init.sql
-│   │       │               └── V2__add_claim_status.sql
-│   │       └── test
-│   │           └── java
-│   │               └── com
-│   │                   └── icai
-│   │                       └── claims_management_system
-│   │                           └── ClaimsManagementSystemApplicationTests.class
-│   ├── claims-management-system.zip
+│   │   ├── src
+│   │   │   └── main
+│   │   │       └── resources
+│   │   │           ├── application.properties
+│   │   │           └── db
+│   │   │               └── migration
+│   │   │                   ├── V1__init.sql
+│   │   │                   └── V2__add_claim_status.sql
+│   │   └── target
+│   │       └── classes
+│   │           └── META-INF
+│   │               └── MANIFEST.MF
+│   ├── claim-management-backend.zip
+│   ├── claims-management-system
+│   │   └── .project
+│   ├── directory_tree.txt
 │   ├── mvnw
 │   ├── pom.xml
 │   ├── src
 │   │   ├── main
 │   │   │   ├── java
-│   │   │   │   ├── com
-│   │   │   │   │   └── icai
-│   │   │   │   │       └── claims_management_system
-│   │   │   │   │           ├── ClaimsManagementSystemApplication.java
-│   │   │   │   │           ├── config
-│   │   │   │   │           │   └── WebConfig.java
-│   │   │   │   │           ├── controller
-│   │   │   │   │           │   ├── AuthController.java
-│   │   │   │   │           │   ├── ClaimController.java
-│   │   │   │   │           │   ├── ProfileController.java
-│   │   │   │   │           │   ├── QuotaController.java
-│   │   │   │   │           │   └── UserController.java
-│   │   │   │   │           ├── dto
-│   │   │   │   │           │   ├── JwtResponse.java
-│   │   │   │   │           │   └── LoginRequest.java
-│   │   │   │   │           ├── model
-│   │   │   │   │           │   ├── BillLineItem.java
-│   │   │   │   │           │   ├── Claim.java
-│   │   │   │   │           │   ├── ClaimStatus.java
-│   │   │   │   │           │   ├── User.java
-│   │   │   │   │           │   └── UserRole.java
-│   │   │   │   │           ├── repository
-│   │   │   │   │           │   ├── ClaimRepository.java
-│   │   │   │   │           │   └── UserRepository.java
-│   │   │   │   │           ├── security
-│   │   │   │   │           │   ├── JwtRequestFilter.java
-│   │   │   │   │           │   ├── SecurityConfig.java
-│   │   │   │   │           │   └── UserDetailsServiceImpl.java
-│   │   │   │   │           ├── service
-│   │   │   │   │           │   ├── ClaimService.java
-│   │   │   │   │           │   └── UserService.java
-│   │   │   │   │           └── util
-│   │   │   │   │               ├── JwtUtil.java
-│   │   │   │   │               └── PasswordHasher.java
-│   │   │   │   └── config
+│   │   │   │   └── com
+│   │   │   │       └── icai
+│   │   │   │           └── claims_management_system
+│   │   │   │               ├── ClaimsManagementSystemApplication.java
+│   │   │   │               ├── config
+│   │   │   │               │   └── WebConfig.java
+│   │   │   │               ├── controller
+│   │   │   │               │   ├── AuthController.java
+│   │   │   │               │   ├── ClaimController.java
+│   │   │   │               │   ├── ProfileController.java
+│   │   │   │               │   ├── QuotaController.java
+│   │   │   │               │   └── UserController.java
+│   │   │   │               ├── dto
+│   │   │   │               │   ├── ClaimDTO.java
+│   │   │   │               │   ├── JwtResponse.java
+│   │   │   │               │   ├── LoginRequest.java
+│   │   │   │               │   └── UserDTO.java
+│   │   │   │               ├── model
+│   │   │   │               │   ├── BillLineItem.java
+│   │   │   │               │   ├── Claim.java
+│   │   │   │               │   ├── ClaimStatus.java
+│   │   │   │               │   ├── User.java
+│   │   │   │               │   └── UserRole.java
+│   │   │   │               ├── repository
+│   │   │   │               │   ├── ClaimRepository.java
+│   │   │   │               │   └── UserRepository.java
+│   │   │   │               ├── security
+│   │   │   │               │   ├── JwtRequestFilter.java
+│   │   │   │               │   ├── SecurityConfig.java
+│   │   │   │               │   └── UserDetailsServiceImpl.java
+│   │   │   │               ├── service
+│   │   │   │               │   ├── ClaimService.java
+│   │   │   │               │   └── UserService.java
+│   │   │   │               └── util
+│   │   │   │                   ├── GlobalExceptionHandler.java
+│   │   │   │                   ├── JwtUtil.java
+│   │   │   │                   └── PasswordHasher.java
 │   │   │   └── resources
 │   │   │       ├── application.properties
 │   │   │       └── db
@@ -194,71 +254,69 @@
 │   │               └── icai
 │   │                   └── claims_management_system
 │   │                       └── ClaimsManagementSystemApplicationTests.java
-│   └── target
-│       ├── classes
-│       │   ├── META-INF
-│       │   │   ├── MANIFEST.MF
-│       │   │   └── maven
-│       │   │       └── com.icai
-│       │   │           └── claims-management-system
-│       │   │               ├── pom.properties
-│       │   │               └── pom.xml
-│       │   ├── application.properties
-│       │   ├── com
-│       │   │   └── icai
-│       │   │       └── claims_management_system
-│       │   │           ├── ClaimsManagementSystemApplication.class
-│       │   │           ├── config
-│       │   │           │   └── WebConfig.class
-│       │   │           ├── controller
-│       │   │           │   ├── AuthController.class
-│       │   │           │   ├── ClaimController.class
-│       │   │           │   ├── ProfileController.class
-│       │   │           │   ├── QuotaController.class
-│       │   │           │   └── UserController.class
-│       │   │           ├── dto
-│       │   │           │   ├── JwtResponse.class
-│       │   │           │   └── LoginRequest.class
-│       │   │           ├── model
-│       │   │           │   ├── BillLineItem.class
-│       │   │           │   ├── Claim.class
-│       │   │           │   ├── ClaimStatus.class
-│       │   │           │   ├── User.class
-│       │   │           │   └── UserRole.class
-│       │   │           ├── repository
-│       │   │           │   ├── ClaimRepository.class
-│       │   │           │   └── UserRepository.class
-│       │   │           ├── security
-│       │   │           │   ├── JwtRequestFilter.class
-│       │   │           │   ├── SecurityConfig.class
-│       │   │           │   └── UserDetailsServiceImpl.class
-│       │   │           ├── service
-│       │   │           │   ├── ClaimService.class
-│       │   │           │   └── UserService.class
-│       │   │           └── util
-│       │   │               ├── JwtUtil.class
-│       │   │               └── PasswordHasher.class
-│       │   ├── config
-│       │   └── db
-│       │       └── migration
-│       │           ├── V1__init.sql
-│       │           └── V2__add_claim_status.sql
-│       ├── generated-sources
-│       │   └── annotations
-│       ├── maven-status
-│       │   └── maven-compiler-plugin
-│       │       └── compile
-│       │           └── default-compile
-│       │               ├── createdFiles.lst
-│       │               └── inputFiles.lst
-│       └── test-classes
-│           └── com
-│               └── icai
-│                   └── claims_management_system
-│                       └── ClaimsManagementSystemApplicationTests.class
+│   ├── target
+│   │   ├── classes
+│   │   │   ├── META-INF
+│   │   │   │   ├── MANIFEST.MF
+│   │   │   │   └── maven
+│   │   │   │       └── com.icai
+│   │   │   │           └── claims-management-system
+│   │   │   │               ├── pom.properties
+│   │   │   │               └── pom.xml
+│   │   │   ├── application.properties
+│   │   │   ├── com
+│   │   │   │   └── icai
+│   │   │   │       └── claims_management_system
+│   │   │   │           ├── ClaimsManagementSystemApplication.class
+│   │   │   │           ├── config
+│   │   │   │           │   └── WebConfig.class
+│   │   │   │           ├── controller
+│   │   │   │           │   ├── AuthController.class
+│   │   │   │           │   ├── ClaimController.class
+│   │   │   │           │   ├── ProfileController.class
+│   │   │   │           │   ├── QuotaController.class
+│   │   │   │           │   └── UserController.class
+│   │   │   │           ├── dto
+│   │   │   │           │   ├── ClaimDTO.class
+│   │   │   │           │   ├── JwtResponse.class
+│   │   │   │           │   ├── LoginRequest.class
+│   │   │   │           │   └── UserDTO.class
+│   │   │   │           ├── model
+│   │   │   │           │   ├── BillLineItem.class
+│   │   │   │           │   ├── Claim.class
+│   │   │   │           │   ├── ClaimStatus.class
+│   │   │   │           │   ├── User.class
+│   │   │   │           │   └── UserRole.class
+│   │   │   │           ├── repository
+│   │   │   │           │   ├── ClaimRepository.class
+│   │   │   │           │   └── UserRepository.class
+│   │   │   │           ├── security
+│   │   │   │           │   ├── JwtRequestFilter.class
+│   │   │   │           │   ├── SecurityConfig.class
+│   │   │   │           │   └── UserDetailsServiceImpl.class
+│   │   │   │           ├── service
+│   │   │   │           │   ├── ClaimService.class
+│   │   │   │           │   └── UserService.class
+│   │   │   │           └── util
+│   │   │   │               ├── ErrorResponse.class
+│   │   │   │               ├── GlobalExceptionHandler.class
+│   │   │   │               ├── JwtUtil.class
+│   │   │   │               └── PasswordHasher.class
+│   │   │   └── db
+│   │   │       └── migration
+│   │   │           ├── V1__init.sql
+│   │   │           └── V2__add_claim_status.sql
+│   │   └── test-classes
+│   │       └── com
+│   │           └── icai
+│   │               └── claims_management_system
+│   │                   └── ClaimsManagementSystemApplicationTests.class
+│   └── treemaker.sh
 ├── claim-management-frontend
+│   ├── .env
 │   ├── .gitignore
 │   ├── README.md
+│   ├── directory_tree.txt
 │   ├── eslint.config.js
 │   ├── index.html
 │   ├── package-lock.json
@@ -317,7 +375,8 @@
 │   │       ├── tokenUtils.js
 │   │       └── userUtils.js
 │   ├── tailwind.config.js
+│   ├── treemaker.sh
 │   └── vite.config.js
-├── db.sql
+├── claims_management_dump.sql
 ├── directory_tree.txt
 └── treemaker.sh
