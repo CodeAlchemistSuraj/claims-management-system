@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Eye } from 'lucide-react';
 import { CLAIM_STATUS } from '../../utils/constants';
 
 export const ClaimsTable = ({ claims = [] }) => {
@@ -21,7 +23,17 @@ export const ClaimsTable = ({ claims = [] }) => {
             claims.map((claim) => (
               <tr key={claim.srNo} className="hover:bg-white/5 transition-colors">
                 <td className="px-3 py-2 whitespace-nowrap text-white/80">{claim.srNo}</td>
-                <td className="px-3 py-2 whitespace-nowrap text-white/80 font-medium">{claim.claimCount}</td>
+                
+                {/* Make Claim ID clickable */}
+                <td className="px-3 py-2 whitespace-nowrap">
+                  <Link 
+                    to={`/claims/${claim.srNo}`}
+                    className="font-medium text-teal-400 hover:text-teal-300 hover:underline transition"
+                  >
+                    {claim.claimCount}
+                  </Link>
+                </td>
+                
                 <td className="px-3 py-2 whitespace-nowrap text-white/80">{claim.patient}</td>
                 <td className="px-3 py-2 whitespace-nowrap text-white/80">{claim.hospital}</td>
                 <td className="px-3 py-2 whitespace-nowrap text-green-400 font-semibold">{claim.claimAmount}</td>
@@ -36,10 +48,16 @@ export const ClaimsTable = ({ claims = [] }) => {
                     {claim.status}
                   </span>
                 </td>
+                
+                {/* Updated Actions button with Link */}
                 <td className="px-3 py-2 whitespace-nowrap">
-                  <button className="text-xs bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-3 py-1 rounded">
+                  <Link 
+                    to={`/claims/${claim.srNo}`}
+                    className="inline-flex items-center gap-1 text-xs bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-3 py-1 rounded transition"
+                  >
+                    <Eye size={12} />
                     View
-                  </button>
+                  </Link>
                 </td>
               </tr>
             ))

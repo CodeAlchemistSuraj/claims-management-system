@@ -7,6 +7,7 @@ import { Dashboard } from "./pages/Dashboard";
 import { ClaimsPage } from "./pages/ClaimsPage";
 import { AdminPage } from "./pages/AdminPage";
 import { Navigation } from "./components/layout/Navigation";
+import { IndividualClaimPage } from './pages/IndividualClaimPage';
 
 const Layout = ({ children }) => (
   <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
@@ -50,6 +51,19 @@ export default function App() {
                 </PrivateRoute>
               }
             />
+
+            {/* Add Individual Claim Route */}
+            <Route
+              path="/claims/:claimId"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <IndividualClaimPage />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+
             <Route
               path="/admin"
               element={
